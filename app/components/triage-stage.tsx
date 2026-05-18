@@ -177,8 +177,8 @@ export default function TriageStage({ initialState }: Props) {
         <DemoScenarios busy={pending !== null} onRun={handleScenario} />
         <OnboardingBanner />
       </header>
-      <main className="grid flex-1 grid-cols-[1fr_400px] overflow-hidden">
-        <section className="relative">
+      <main className="flex flex-1 overflow-hidden">
+        <section className="relative flex-1 min-w-0">
           <TriageGraph graph={graph} highlightId={highlightId} />
           <ESILegend />
           {pending && (
@@ -191,7 +191,7 @@ export default function TriageStage({ initialState }: Props) {
             />
           )}
         </section>
-        <aside className="flex flex-col border-l border-zinc-900 bg-zinc-950">
+        <aside className="flex w-[400px] shrink-0 flex-col border-l border-zinc-900 bg-zinc-950">
           <div className="flex-1 overflow-hidden">
             <PriorityQueue
               patients={state.patients}
