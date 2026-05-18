@@ -10,6 +10,8 @@ import type { DemoScenario } from "@/lib/triage/scenarios";
 import AddPatientForm, { type FormSubmission } from "./add-patient-form";
 import ClassifyingOverlay from "./classifying-overlay";
 import DemoScenarios from "./demo-scenarios";
+import ESILegend from "./esi-legend";
+import OnboardingBanner from "./onboarding-banner";
 import PriorityQueue from "./priority-queue";
 import TriageGraph from "./triage-graph";
 
@@ -173,10 +175,12 @@ export default function TriageStage({ initialState }: Props) {
           </div>
         </div>
         <DemoScenarios busy={pending !== null} onRun={handleScenario} />
+        <OnboardingBanner />
       </header>
       <main className="grid flex-1 grid-cols-[1fr_400px] overflow-hidden">
         <section className="relative">
           <TriageGraph graph={graph} highlightId={highlightId} />
+          <ESILegend />
           {pending && (
             <ClassifyingOverlay
               name={pending.name}
