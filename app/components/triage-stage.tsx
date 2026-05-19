@@ -163,7 +163,7 @@ export default function TriageStage({ initialState }: Props) {
             <h1 className="text-lg font-semibold tracking-tight">
               TriageGraph{" "}
               <span className="ml-1 rounded bg-zinc-800 px-1.5 py-0.5 text-[10px] font-mono text-zinc-400">
-                v3
+                v4
               </span>
             </h1>
             <p className="text-xs text-zinc-500">
@@ -182,8 +182,11 @@ export default function TriageStage({ initialState }: Props) {
         <DemoScenarios busy={pending !== null} onRun={handleScenario} />
         <OnboardingBanner />
       </header>
-      <main className="flex flex-1 overflow-hidden">
-        <section className="relative flex-1 min-w-0">
+      <main className="relative flex-1 overflow-hidden">
+        <section
+          className="absolute inset-y-0 left-0 overflow-hidden"
+          style={{ right: 420 }}
+        >
           <TriageGraph graph={graph} highlightId={highlightId} />
           <ESILegend />
           {pending && (
@@ -199,11 +202,15 @@ export default function TriageStage({ initialState }: Props) {
         <aside
           className="flex flex-col"
           style={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            bottom: 0,
             width: 420,
-            flexShrink: 0,
             background: "#16161d",
             borderLeft: "3px solid #3f3f46",
             boxShadow: "-16px 0 40px -16px rgba(0,0,0,0.9)",
+            zIndex: 10,
           }}
         >
           <div className="flex-1 overflow-hidden">

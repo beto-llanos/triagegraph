@@ -24,6 +24,7 @@ type GraphNode = {
   x?: number;
   y?: number;
   fx?: number;
+  fy?: number;
 };
 
 const LANE_WIDTH = 220;
@@ -52,11 +53,22 @@ export default function TriageGraph({ graph, highlightId }: Props) {
   const fgRef = useRef<ForceGraphHandle | undefined>(undefined);
 
   const data = useMemo(() => {
+    const byLane = new Map<ESILevel, typeof graph.nodes>();
+    for (const n of graph.nodes) {
+      const list = byLane.get(n.esi) ?? [];
+      list.push(n);
+      byLane.set(n.esi, list);
+    }
+    const LANE_ROW = 56;
+    const positioned = graph.nodes.map((n) => {
+      const lane = byLane.get(n.esi) ?? [];
+      const idx = lane.findIndex((m) => m.id === n.id);
+      const count = lane.length;
+      const fy = (idx - (count - 1) / 2) * LANE_ROW;
+      return { ...n, fx: laneX(n.esi), fy };
+    });
     return {
-      nodes: graph.nodes.map((n) => ({
-        ...n,
-        fx: laneX(n.esi),
-      })),
+      nodes: positioned,
       links: graph.links.map((l) => ({ ...l })),
     };
   }, [graph]);
@@ -64,7 +76,7 @@ export default function TriageGraph({ graph, highlightId }: Props) {
   useEffect(() => {
     const fg = fgRef.current;
     if (!fg) return;
-    fg.d3Force("charge")?.strength?.(-380);
+    fg.d3Force("charge")?.strength?.(-120);
     fg.d3Force("link")?.distance?.(40);
   }, [data]);
 
