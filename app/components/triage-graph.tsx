@@ -26,7 +26,7 @@ type GraphNode = {
 };
 
 function nodeRadius(esi: ESILevel): number {
-  return 14 - (esi - 1) * 1.6;
+  return 22 - (esi - 1) * 2.5;
 }
 
 export default function TriageGraph({ graph, highlightId }: Props) {
@@ -54,10 +54,8 @@ export default function TriageGraph({ graph, highlightId }: Props) {
   useEffect(() => {
     const fg = fgRef.current;
     if (!fg) return;
-    fg.d3Force("charge")?.strength?.(-260);
-    fg.d3Force("link")?.distance?.(70);
-    const t = window.setTimeout(() => fg.zoomToFit?.(600, 80), 700);
-    return () => window.clearTimeout(t);
+    fg.d3Force("charge")?.strength?.(-420);
+    fg.d3Force("link")?.distance?.(110);
   }, [data]);
 
   return (
@@ -96,36 +94,32 @@ export default function TriageGraph({ graph, highlightId }: Props) {
           ctx.fillStyle = "#000";
           ctx.fillText(String(node.esi), x, y);
 
-          const showLabel = isHi || node.esi <= 2 || globalScale > 1.6;
-          if (!showLabel) return;
-
-          const labelFont = Math.max(4, Math.min(10, 11 / globalScale));
+          const labelFont = 11;
           ctx.font = `${labelFont}px Inter, sans-serif`;
           ctx.textBaseline = "top";
 
-          const labelY = y + r + 2;
-          const padX = 4;
+          const labelY = y + r + 4;
+          const padX = 5;
           const text = node.label;
           const textW = ctx.measureText(text).width;
 
-          ctx.fillStyle = "rgba(10,10,10,0.75)";
+          ctx.fillStyle = "rgba(0,0,0,0.85)";
           ctx.fillRect(x - textW / 2 - padX, labelY - 1, textW + padX * 2, labelFont + 4);
           ctx.fillStyle = "#fafafa";
           ctx.fillText(text, x, labelY + 1);
 
-          if (isHi || node.esi <= 2) {
-            const waitText = `~${node.waitMinutes}m`;
-            const waitW = ctx.measureText(waitText).width;
-            ctx.fillStyle = "rgba(10,10,10,0.75)";
-            ctx.fillRect(
-              x - waitW / 2 - padX,
-              labelY + labelFont + 4,
-              waitW + padX * 2,
-              labelFont + 2,
-            );
-            ctx.fillStyle = "#a1a1aa";
-            ctx.fillText(waitText, x, labelY + labelFont + 5);
-          }
+          const waitText = `~${node.waitMinutes}m`;
+          const waitW = ctx.measureText(waitText).width;
+          const waitY = labelY + labelFont + 5;
+          ctx.fillStyle = "rgba(0,0,0,0.85)";
+          ctx.fillRect(
+            x - waitW / 2 - padX,
+            waitY - 1,
+            waitW + padX * 2,
+            labelFont + 4,
+          );
+          ctx.fillStyle = isHi ? "#fbbf24" : "#a1a1aa";
+          ctx.fillText(waitText, x, waitY + 1);
         }}
         nodePointerAreaPaint={(rawNode, color, ctx) => {
           const node = rawNode as GraphNode;

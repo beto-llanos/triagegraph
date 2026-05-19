@@ -83,7 +83,7 @@ export default function AddPatientForm({ onSubmit, busy }: Props) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-2 border-t border-zinc-900 bg-zinc-950/80 p-4"
+      className="flex flex-col gap-2 border-t border-zinc-700 bg-zinc-950 p-4"
     >
       <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
         Nuevo paciente

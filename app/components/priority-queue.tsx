@@ -48,8 +48,8 @@ export default function PriorityQueue({ patients, highlightId, onHover }: Props)
               onMouseLeave={() => onHover?.(null)}
               className={`group flex items-start gap-3 rounded-lg border p-3 text-left transition ${
                 isHi
-                  ? "border-white bg-zinc-900"
-                  : "border-zinc-800 bg-zinc-950 hover:border-zinc-700"
+                  ? "border-white bg-zinc-800"
+                  : "border-zinc-700 bg-zinc-950 hover:border-zinc-500"
               }`}
             >
               <div className="flex w-8 flex-col items-center">

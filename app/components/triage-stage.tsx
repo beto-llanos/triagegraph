@@ -191,7 +191,7 @@ export default function TriageStage({ initialState }: Props) {
             />
           )}
         </section>
-        <aside className="flex w-[400px] shrink-0 flex-col border-l border-zinc-900 bg-zinc-950">
+        <aside className="flex w-[420px] shrink-0 flex-col border-l-2 border-zinc-700 bg-zinc-900 shadow-[-12px_0_32px_-12px_rgba(0,0,0,0.8)]">
           <div className="flex-1 overflow-hidden">
             <PriorityQueue
               patients={state.patients}
