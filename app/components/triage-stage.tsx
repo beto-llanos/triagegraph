@@ -160,7 +160,12 @@ export default function TriageStage({ initialState }: Props) {
       <header className="border-b border-zinc-900">
         <div className="flex items-center justify-between px-6 py-3">
           <div>
-            <h1 className="text-lg font-semibold tracking-tight">TriageGraph</h1>
+            <h1 className="text-lg font-semibold tracking-tight">
+              TriageGraph{" "}
+              <span className="ml-1 rounded bg-zinc-800 px-1.5 py-0.5 text-[10px] font-mono text-zinc-400">
+                v3
+              </span>
+            </h1>
             <p className="text-xs text-zinc-500">
               Agente ESI con propagación de tiempos de espera en tiempo real ·
               Sonnet 4.6
@@ -191,7 +196,16 @@ export default function TriageStage({ initialState }: Props) {
             />
           )}
         </section>
-        <aside className="flex w-[420px] shrink-0 flex-col border-l-2 border-zinc-700 bg-zinc-900 shadow-[-12px_0_32px_-12px_rgba(0,0,0,0.8)]">
+        <aside
+          className="flex flex-col"
+          style={{
+            width: 420,
+            flexShrink: 0,
+            background: "#16161d",
+            borderLeft: "3px solid #3f3f46",
+            boxShadow: "-16px 0 40px -16px rgba(0,0,0,0.9)",
+          }}
+        >
           <div className="flex-1 overflow-hidden">
             <PriorityQueue
               patients={state.patients}
