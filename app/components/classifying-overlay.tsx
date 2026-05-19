@@ -31,16 +31,16 @@ export default function ClassifyingOverlay({
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-400" />
           </span>
-          Clasificando con Sonnet 4.6
+          Classifying with Sonnet 4.6
         </div>
         <div className="mt-2 text-sm text-zinc-100">
-          <span className="font-medium">{name}, {age}a</span>
+          <span className="font-medium">{name}, {age}y</span>
           <span className="text-zinc-500"> — </span>
           <span className="text-zinc-300">{chiefComplaint}</span>
         </div>
         <p className="mt-3 min-h-[3em] whitespace-pre-wrap text-sm leading-relaxed text-zinc-200">
           {reasoning || (
-            <span className="text-zinc-500">El modelo está pensando...</span>
+            <span className="text-zinc-500">Model is thinking...</span>
           )}
           {!error && reasoning && (
             <motion.span

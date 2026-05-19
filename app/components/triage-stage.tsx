@@ -163,20 +163,19 @@ export default function TriageStage({ initialState }: Props) {
             <h1 className="text-lg font-semibold tracking-tight">
               TriageGraph{" "}
               <span className="ml-1 rounded bg-zinc-800 px-1.5 py-0.5 text-[10px] font-mono text-zinc-400">
-                v4
+                v5
               </span>
             </h1>
             <p className="text-xs text-zinc-500">
-              Agente ESI con propagación de tiempos de espera en tiempo real ·
-              Sonnet 4.6
+              ESI agent with real-time wait-time propagation · Sonnet 4.6
             </p>
           </div>
           <div className="flex items-center gap-4 text-sm">
             <div className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-red-500" />
-              <span className="text-zinc-300">{criticalCount} crítico(s)</span>
+              <span className="text-zinc-300">{criticalCount} critical</span>
             </div>
-            <div className="text-zinc-500">{waitingCount} en espera</div>
+            <div className="text-zinc-500">{waitingCount} waiting</div>
           </div>
         </div>
         <DemoScenarios busy={pending !== null} onRun={handleScenario} />

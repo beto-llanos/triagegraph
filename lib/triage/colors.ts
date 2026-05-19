@@ -9,9 +9,9 @@ export const ESI_COLOR: Record<ESILevel, string> = {
 };
 
 export const ESI_LABEL: Record<ESILevel, string> = {
-  1: "Inmediato",
-  2: "Urgente",
-  3: "Menos urgente",
-  4: "No urgente",
-  5: "Administrativo",
+  1: "Immediate",
+  2: "Urgent",
+  3: "Less urgent",
+  4: "Non-urgent",
+  5: "Administrative",
 };

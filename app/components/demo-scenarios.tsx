@@ -11,7 +11,7 @@ interface Props {
 export default function DemoScenarios({ busy, onRun }: Props) {
   return (
     <div className="flex items-center gap-2 overflow-x-auto px-4 py-2 text-xs">
-      <span className="shrink-0 text-zinc-500">Demo:</span>
+      <span className="shrink-0 text-zinc-500">Try a demo:</span>
       {DEMO_SCENARIOS.map((s) => (
         <button
           key={s.id}

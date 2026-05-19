@@ -78,6 +78,8 @@ export default function TriageGraph({ graph, highlightId }: Props) {
     if (!fg) return;
     fg.d3Force("charge")?.strength?.(-120);
     fg.d3Force("link")?.distance?.(40);
+    const t = window.setTimeout(() => fg.zoomToFit?.(800, 80), 400);
+    return () => window.clearTimeout(t);
   }, [data]);
 
   return (
@@ -93,11 +95,11 @@ export default function TriageGraph({ graph, highlightId }: Props) {
         cooldownTicks={160}
         onRenderFramePre={(ctx, globalScale) => {
           const lanes: { esi: ESILevel; label: string }[] = [
-            { esi: 1, label: "Inmediato" },
-            { esi: 2, label: "Urgente" },
-            { esi: 3, label: "Menos urgente" },
-            { esi: 4, label: "No urgente" },
-            { esi: 5, label: "Administrativo" },
+            { esi: 1, label: "Immediate" },
+            { esi: 2, label: "Urgent" },
+            { esi: 3, label: "Less urgent" },
+            { esi: 4, label: "Non-urgent" },
+            { esi: 5, label: "Administrative" },
           ];
           ctx.save();
           ctx.font = `${10 / globalScale}px Inter, sans-serif`;

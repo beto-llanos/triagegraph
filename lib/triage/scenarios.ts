@@ -16,52 +16,52 @@ export interface DemoScenario {
 export const DEMO_SCENARIOS: DemoScenario[] = [
   {
     id: "cardiac",
-    label: "Paro cardiaco",
-    description: "Hombre adulto, sin pulso. ESI-1 esperado.",
+    label: "Cardiac arrest",
+    description: "Adult male, no pulse. Expected ESI-1.",
     expectedESI: 1,
     patient: {
-      name: "Sr. Domínguez",
+      name: "Mr. Domínguez",
       age: 62,
       chiefComplaint:
-        "Encontrado inconsciente sin pulso por familiares. RCP en curso al llegar.",
+        "Found unresponsive with no pulse by family. CPR in progress on arrival.",
       vitals: { systolicBP: 0, spO2: 70, heartRate: 0 },
     },
   },
   {
     id: "chest-pain",
-    label: "Dolor torácico irradiado",
-    description: "Adulto con sospecha de IAM. ESI-2 esperado.",
+    label: "Radiating chest pain",
+    description: "Adult with suspected MI. Expected ESI-2.",
     expectedESI: 2,
     patient: {
-      name: "Sr. Hernández",
+      name: "Mr. Hernández",
       age: 58,
       chiefComplaint:
-        "Dolor torácico opresivo irradiado a brazo izquierdo, 20 minutos. Diaforesis.",
+        "Crushing chest pain radiating to left arm, 20 minutes. Diaphoresis.",
       vitals: { systolicBP: 138, heartRate: 102, spO2: 95, painScale: 9 },
     },
   },
   {
     id: "pediatric-burn",
-    label: "Quemadura pediátrica",
-    description: "Niño con quemadura de mano. ESI-3 esperado.",
+    label: "Pediatric burn",
+    description: "Child with hand burn. Expected ESI-3.",
     expectedESI: 3,
     patient: {
       name: "Mateo",
       age: 4,
       chiefComplaint:
-        "Quemadura por agua hirviendo en mano y antebrazo derecho hace 1 hora. Llanto intenso.",
+        "Boiling water burn on right hand and forearm 1 hour ago. Intense crying.",
       vitals: { heartRate: 130, painScale: 9, temperatureC: 37.1 },
     },
   },
   {
     id: "prescription",
-    label: "Receta de hipertensión",
-    description: "Adulta mayor solicitando receta. ESI-5 esperado.",
+    label: "Prescription refill",
+    description: "Older adult requesting prescription refill. Expected ESI-5.",
     expectedESI: 5,
     patient: {
-      name: "Sra. Pérez",
+      name: "Mrs. Pérez",
       age: 66,
-      chiefComplaint: "Necesita receta de losartán, se le acabó ayer.",
+      chiefComplaint: "Needs a losartan prescription refill, ran out yesterday.",
     },
   },
 ];

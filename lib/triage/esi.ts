@@ -21,9 +21,11 @@ const LIFE_THREAT_KEYWORDS = [
   "not breathing",
   "unresponsive",
   "inconsciente",
+  "unconscious",
   "severe trauma",
   "trauma severo",
   "stab",
+  "stabbed",
   "apuñalado",
   "gunshot",
   "balazo",
@@ -42,6 +44,7 @@ const HIGH_RISK_KEYWORDS = [
   "evc",
   "acv",
   "facial droop",
+  "slurred speech",
   "habla arrastrada",
   "severe shortness of breath",
   "dificultad para respirar severa",
@@ -51,19 +54,23 @@ const HIGH_RISK_KEYWORDS = [
   "trabajo de parto activo",
   "irradiado",
   "radiating",
+  "crushing chest",
 ];
 
 const MID_RISK_KEYWORDS = [
   "abdominal pain",
   "dolor abdominal",
-  "vomito persistente",
   "persistent vomiting",
+  "vomito persistente",
+  "high fever",
   "fever",
   "fiebre alta",
-  "headache severe",
+  "severe migraine",
   "migraña severa",
   "fractura",
   "fracture",
+  "burn",
+  "quemadura",
 ];
 
 const LOW_RISK_KEYWORDS = [
@@ -82,13 +89,13 @@ const LOW_RISK_KEYWORDS = [
 ];
 
 const TRIVIAL_KEYWORDS = [
+  "prescription refill",
   "med refill",
   "receta",
-  "prescription refill",
   "stitch removal",
   "retiro de puntos",
-  "tos leve",
   "mild cough",
+  "tos leve",
   "constipation",
   "estreñimiento",
 ];
@@ -105,16 +112,40 @@ function inferResources(esi: ESILevel, complaint: string): ResourceId[] {
     r.add("trauma_bay");
     r.add("iv_bay");
   }
-  if (t.includes("pecho") || t.includes("chest") || t.includes("torácic") || t.includes("toracic")) {
+  if (
+    t.includes("pecho") ||
+    t.includes("chest") ||
+    t.includes("torácic") ||
+    t.includes("toracic")
+  ) {
     r.add("ecg");
   }
-  if (t.includes("cabeza") || t.includes("head") || t.includes("abdominal") || t.includes("stroke") || t.includes("evc")) {
+  if (
+    t.includes("cabeza") ||
+    t.includes("head") ||
+    t.includes("abdominal") ||
+    t.includes("stroke") ||
+    t.includes("evc") ||
+    t.includes("slurred") ||
+    t.includes("facial droop")
+  ) {
     r.add("ct_scan");
   }
-  if (t.includes("fractura") || t.includes("fracture") || t.includes("tobillo") || t.includes("muñeca") || t.includes("ankle") || t.includes("wrist")) {
+  if (
+    t.includes("fractura") ||
+    t.includes("fracture") ||
+    t.includes("tobillo") ||
+    t.includes("muñeca") ||
+    t.includes("ankle") ||
+    t.includes("wrist")
+  ) {
     r.add("xray");
   }
-  if (t.includes("fiebre") || t.includes("fever") || t.includes("abdominal")) {
+  if (
+    t.includes("fiebre") ||
+    t.includes("fever") ||
+    t.includes("abdominal")
+  ) {
     r.add("lab");
   }
   if (esi <= 2) r.add("iv_bay");
@@ -144,14 +175,14 @@ export function classifyESI(input: ClassifierInput): ClassifierOutput {
     if ((vitals.systolicBP ?? 120) < 80) {
       return {
         esi: 1,
-        reasoning: `Sistólica ${vitals.systolicBP} < 80 mmHg — hipotensión.`,
+        reasoning: `Systolic ${vitals.systolicBP} < 80 mmHg — hypotension.`,
         resourcesNeeded: inferResources(1, chiefComplaint),
       };
     }
     if ((vitals.heartRate ?? 80) > 140) {
       return {
         esi: 2,
-        reasoning: `FC ${vitals.heartRate} > 140 bpm — taquicardia severa.`,
+        reasoning: `HR ${vitals.heartRate} > 140 bpm — severe tachycardia.`,
         resourcesNeeded: inferResources(2, chiefComplaint),
       };
     }
@@ -160,17 +191,20 @@ export function classifyESI(input: ClassifierInput): ClassifierOutput {
   if (includesAny(chiefComplaint, HIGH_RISK_KEYWORDS)) {
     return {
       esi: 2,
-      reasoning: "Alto riesgo: situación urgente o dolor severo.",
+      reasoning: "High risk: urgent situation or severe pain.",
       resourcesNeeded: inferResources(2, chiefComplaint),
     };
   }
 
   const veryYoungOrOld = age < 2 || age > 80;
   const painSevere = (vitals?.painScale ?? 0) >= 7;
-  if (includesAny(chiefComplaint, MID_RISK_KEYWORDS) || (painSevere && veryYoungOrOld)) {
+  if (
+    includesAny(chiefComplaint, MID_RISK_KEYWORDS) ||
+    (painSevere && veryYoungOrOld)
+  ) {
     return {
       esi: 3,
-      reasoning: "Estable, requiere múltiples recursos (estudios + valoración).",
+      reasoning: "Stable, requires multiple resources (studies + evaluation).",
       resourcesNeeded: inferResources(3, chiefComplaint),
     };
   }
@@ -178,7 +212,7 @@ export function classifyESI(input: ClassifierInput): ClassifierOutput {
   if (includesAny(chiefComplaint, LOW_RISK_KEYWORDS)) {
     return {
       esi: 4,
-      reasoning: "Estable, requiere un solo recurso.",
+      reasoning: "Stable, requires a single resource.",
       resourcesNeeded: inferResources(4, chiefComplaint),
     };
   }
@@ -186,14 +220,14 @@ export function classifyESI(input: ClassifierInput): ClassifierOutput {
   if (includesAny(chiefComplaint, TRIVIAL_KEYWORDS)) {
     return {
       esi: 5,
-      reasoning: "No requiere recursos; consulta administrativa.",
+      reasoning: "No resources required; administrative visit.",
       resourcesNeeded: inferResources(5, chiefComplaint),
     };
   }
 
   return {
     esi: 3,
-    reasoning: "Sin keywords claras — default conservador ESI-3.",
+    reasoning: "No clear keywords — conservative default ESI-3.",
     resourcesNeeded: inferResources(3, chiefComplaint),
   };
 }

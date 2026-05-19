@@ -23,7 +23,7 @@ export default function PriorityQueue({ patients, highlightId, onHover }: Props)
   return (
     <div className="flex h-full flex-col gap-2 overflow-y-auto p-4">
       <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-        Cola de prioridad ({sorted.length})
+        Priority queue ({sorted.length})
       </h2>
       <AnimatePresence initial={false}>
         {sorted.map((p, idx) => {
@@ -64,7 +64,7 @@ export default function PriorityQueue({ patients, highlightId, onHover }: Props)
               <div className="flex-1">
                 <div className="flex items-baseline justify-between gap-2">
                   <span className="font-medium text-zinc-100">
-                    {p.name}, {p.age}a
+                    {p.name}, {p.age}y
                   </span>
                   <motion.span
                     key={`${p.id}-${p.estimatedWaitMinutes}`}

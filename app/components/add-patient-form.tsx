@@ -86,20 +86,20 @@ export default function AddPatientForm({ onSubmit, busy }: Props) {
       className="flex flex-col gap-2 border-t border-zinc-700 bg-zinc-950 p-4"
     >
       <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-        Nuevo paciente
+        New patient
       </h2>
       <div className="grid grid-cols-[1fr_72px] gap-2">
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Nombre"
+          placeholder="Name"
           disabled={busy}
           className="rounded border border-zinc-800 bg-zinc-900 px-2 py-1.5 text-sm text-zinc-100 placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
         />
         <input
           value={age}
           onChange={(e) => setAge(e.target.value)}
-          placeholder="Edad"
+          placeholder="Age"
           inputMode="numeric"
           disabled={busy}
           className="rounded border border-zinc-800 bg-zinc-900 px-2 py-1.5 text-sm text-zinc-100 placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
@@ -108,7 +108,7 @@ export default function AddPatientForm({ onSubmit, busy }: Props) {
       <textarea
         value={chief}
         onChange={(e) => setChief(e.target.value)}
-        placeholder="Queja principal (ej. dolor torácico irradiado, 30 min)"
+        placeholder="Chief complaint (e.g. radiating chest pain, 30 min)"
         rows={2}
         disabled={busy}
         className="rounded border border-zinc-800 bg-zinc-900 px-2 py-1.5 text-sm text-zinc-100 placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
@@ -119,7 +119,7 @@ export default function AddPatientForm({ onSubmit, busy }: Props) {
         onClick={() => setShowVitals((v) => !v)}
         className="self-start text-[11px] text-zinc-400 underline-offset-2 hover:text-zinc-200 hover:underline"
       >
-        {showVitals ? "Ocultar signos vitales" : "+ Agregar signos vitales (opcional)"}
+        {showVitals ? "Hide vitals" : "+ Add vital signs (optional)"}
       </button>
 
       {showVitals && (
@@ -127,7 +127,7 @@ export default function AddPatientForm({ onSubmit, busy }: Props) {
           <input
             value={hr}
             onChange={(e) => setHr(e.target.value)}
-            placeholder="FC"
+            placeholder="HR"
             inputMode="numeric"
             disabled={busy}
             className="rounded border border-zinc-800 bg-zinc-900 px-1.5 py-1 text-xs text-zinc-100 placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
@@ -135,7 +135,7 @@ export default function AddPatientForm({ onSubmit, busy }: Props) {
           <input
             value={bp}
             onChange={(e) => setBp(e.target.value)}
-            placeholder="TAs"
+            placeholder="SBP"
             inputMode="numeric"
             disabled={busy}
             className="rounded border border-zinc-800 bg-zinc-900 px-1.5 py-1 text-xs text-zinc-100 placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
@@ -159,7 +159,7 @@ export default function AddPatientForm({ onSubmit, busy }: Props) {
           <input
             value={pain}
             onChange={(e) => setPain(e.target.value)}
-            placeholder="Dolor"
+            placeholder="Pain"
             inputMode="numeric"
             disabled={busy}
             className="rounded border border-zinc-800 bg-zinc-900 px-1.5 py-1 text-xs text-zinc-100 placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
@@ -172,7 +172,7 @@ export default function AddPatientForm({ onSubmit, busy }: Props) {
         disabled={!canSubmit}
         className="mt-1 rounded bg-white px-3 py-1.5 text-sm font-medium text-black transition disabled:bg-zinc-800 disabled:text-zinc-500"
       >
-        {busy ? "Clasificando..." : "Clasificar y triagear"}
+        {busy ? "Classifying..." : "Classify & triage"}
       </button>
     </form>
   );

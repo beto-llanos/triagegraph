@@ -9,7 +9,7 @@ export default function ESILegend() {
   return (
     <div className="pointer-events-none absolute bottom-4 right-4 z-10 rounded-lg border border-zinc-800 bg-zinc-950/85 p-3 text-xs backdrop-blur">
       <div className="mb-1.5 font-semibold uppercase tracking-wider text-zinc-400">
-        Nivel ESI
+        ESI level
       </div>
       <div className="flex flex-col gap-1">
         {LEVELS.map((lvl) => (
