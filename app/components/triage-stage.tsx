@@ -163,7 +163,7 @@ export default function TriageStage({ initialState }: Props) {
             <h1 className="text-lg font-semibold tracking-tight">
               TriageGraph{" "}
               <span className="ml-1 rounded bg-zinc-800 px-1.5 py-0.5 text-[10px] font-mono text-zinc-400">
-                v5
+                v6
               </span>
             </h1>
             <p className="text-xs text-zinc-500">
