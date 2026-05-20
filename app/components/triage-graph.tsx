@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ESI_COLOR } from "@/lib/triage/colors";
 import type { ESILevel, GraphPayload, Patient } from "@/lib/triage/types";
 
@@ -27,7 +27,8 @@ type GraphNode = {
   fy?: number;
 };
 
-const LANE_WIDTH = 220;
+const LANE_WIDTH = 180;
+const LANE_ROW = 60;
 
 function laneX(esi: ESILevel): number {
   return (esi - 3) * LANE_WIDTH;
@@ -51,6 +52,7 @@ export default function TriageGraph({ graph, highlightId }: Props) {
     zoomToFit?: (ms: number, padding: number) => void;
   };
   const fgRef = useRef<ForceGraphHandle | undefined>(undefined);
+  const [size, setSize] = useState({ width: 0, height: 0 });
 
   const data = useMemo(() => {
     const byLane = new Map<ESILevel, typeof graph.nodes>();
@@ -59,7 +61,6 @@ export default function TriageGraph({ graph, highlightId }: Props) {
       list.push(n);
       byLane.set(n.esi, list);
     }
-    const LANE_ROW = 56;
     const positioned = graph.nodes.map((n) => {
       const lane = byLane.get(n.esi) ?? [];
       const idx = lane.findIndex((m) => m.id === n.id);
@@ -74,13 +75,27 @@ export default function TriageGraph({ graph, highlightId }: Props) {
   }, [graph]);
 
   useEffect(() => {
-    const fg = fgRef.current;
-    if (!fg) return;
-    fg.d3Force("charge")?.strength?.(-120);
-    fg.d3Force("link")?.distance?.(40);
-    const t = window.setTimeout(() => fg.zoomToFit?.(800, 80), 400);
+    const el = containerRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver((entries) => {
+      const rect = entries[0]?.contentRect;
+      if (rect) setSize({ width: rect.width, height: rect.height });
+    });
+    ro.observe(el);
+    setSize({ width: el.clientWidth, height: el.clientHeight });
+    return () => ro.disconnect();
+  }, []);
+
+  const fitView = () => {
+    fgRef.current?.zoomToFit?.(500, 70);
+  };
+
+  useEffect(() => {
+    fgRef.current?.d3Force("charge")?.strength?.(-80);
+    fgRef.current?.d3Force("link")?.distance?.(30);
+    const t = window.setTimeout(fitView, 250);
     return () => window.clearTimeout(t);
-  }, [data]);
+  }, [data, size.width, size.height]);
 
   return (
     <div ref={containerRef} className="relative h-full w-full">
@@ -88,11 +103,14 @@ export default function TriageGraph({ graph, highlightId }: Props) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ref={fgRef as any}
         graphData={data}
+        width={size.width || undefined}
+        height={size.height || undefined}
         backgroundColor="#0a0a0a"
         nodeRelSize={4}
         linkColor={() => "rgba(255,255,255,0.06)"}
         linkWidth={0.6}
-        cooldownTicks={160}
+        cooldownTicks={80}
+        onEngineStop={fitView}
         onRenderFramePre={(ctx, globalScale) => {
           const lanes: { esi: ESILevel; label: string }[] = [
             { esi: 1, label: "Immediate" },
