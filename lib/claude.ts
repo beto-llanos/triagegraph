@@ -29,7 +29,7 @@ Available resources at this clinic: doctor, trauma_bay, ecg, ct_scan, xray, lab,
 
 Your task:
 1. Read the patient's chief complaint, age, and vital signs.
-2. Reason step by step in 2-3 sentences, in English, justifying your decision.
+2. Reason step by step in 2-3 sentences, in English, justifying your decision. Write plain prose only — no markdown headers, no bold, no bullet points, no "Reasoning:" label.
 3. End with EXACTLY this block, no extra commentary:
 
 <triage>

@@ -30,7 +30,13 @@ export function parseTriageResponse(raw: string): ParsedTriage | null {
     .filter((r): r is ResourceId => VALID_RESOURCES.includes(r));
 
   const beforeTriage = raw.split(/<triage>/i)[0] ?? raw;
-  const reasoning = beforeTriage.trim();
+  const reasoning = beforeTriage
+    .replace(/^\s*#+\s*reasoning\s*:?\s*/i, "")
+    .replace(/^\s*#+\s.*$/gm, "")
+    .replace(/\*\*(.+?)\*\*/g, "$1")
+    .replace(/\*(.+?)\*/g, "$1")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 
   return {
     esi: esiNum as ESILevel,
