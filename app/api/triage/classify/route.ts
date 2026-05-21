@@ -9,24 +9,24 @@ const InputSchema = z.object({
   age: z.number().int().min(0).max(120),
   vitals: z
     .object({
-      heartRate: z.number().int().min(20).max(260).optional(),
-      systolicBP: z.number().int().min(40).max(260).optional(),
-      spO2: z.number().int().min(40).max(100).optional(),
-      temperatureC: z.number().min(28).max(45).optional(),
+      heartRate: z.number().int().min(0).max(300).optional(),
+      systolicBP: z.number().int().min(0).max(300).optional(),
+      spO2: z.number().int().min(0).max(100).optional(),
+      temperatureC: z.number().min(20).max(45).optional(),
       painScale: z.number().int().min(0).max(10).optional(),
     })
     .optional(),
 });
 
 function vitalsLine(v: z.infer<typeof InputSchema>["vitals"]): string {
-  if (!v) return "Signos vitales no registrados.";
+  if (!v) return "Vital signs not recorded.";
   const parts: string[] = [];
-  if (v.heartRate !== undefined) parts.push(`FC ${v.heartRate} bpm`);
-  if (v.systolicBP !== undefined) parts.push(`TA sistólica ${v.systolicBP} mmHg`);
+  if (v.heartRate !== undefined) parts.push(`HR ${v.heartRate} bpm`);
+  if (v.systolicBP !== undefined) parts.push(`Systolic BP ${v.systolicBP} mmHg`);
   if (v.spO2 !== undefined) parts.push(`SpO2 ${v.spO2}%`);
   if (v.temperatureC !== undefined) parts.push(`Temp ${v.temperatureC}°C`);
-  if (v.painScale !== undefined) parts.push(`Dolor ${v.painScale}/10`);
-  return parts.length > 0 ? parts.join(", ") : "Signos vitales no registrados.";
+  if (v.painScale !== undefined) parts.push(`Pain ${v.painScale}/10`);
+  return parts.length > 0 ? parts.join(", ") : "Vital signs not recorded.";
 }
 
 export async function POST(request: Request) {
@@ -47,9 +47,9 @@ export async function POST(request: Request) {
 
   const { chiefComplaint, age, vitals } = parsed.data;
 
-  const userPrompt = `Paciente
-Edad: ${age} años
-Queja principal: ${chiefComplaint}
+  const userPrompt = `Patient
+Age: ${age} years
+Chief complaint: ${chiefComplaint}
 ${vitalsLine(vitals)}`;
 
   let claude;
