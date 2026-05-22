@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TriageGraph",
+  title: "TriageGraph — AI triage for public clinics",
   description:
-    "Agente de voz para triage en clínicas públicas. Algoritmo ESI + propagación de tiempos de espera en tiempo real.",
+    "AI triage agent for public clinics. Claude Sonnet 4.6 assigns ESI severity levels and propagates wait times across a live priority graph in real time.",
 };
 
 export default function RootLayout({
